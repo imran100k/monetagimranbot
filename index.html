@@ -1,79 +1,127 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Adson App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crazy All | Utility Tools</title>
 
-  <!-- Telegram Web App SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <!-- Interstitial Ad SDK (replace Zone ID if needed) -->
+  <!-- Monetag SDK Ad Script -->
   <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
     }
-    .box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+    .container {
+      max-width: 600px;
       margin: 20px auto;
-      max-width: 400px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
     }
+
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .button-group {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
     .btn {
-      background-color: #2AABEE;
+      padding: 12px 20px;
+      font-size: 15px;
+      background-color: #0096d1;
       color: white;
       border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
+      transition: 0.3s;
+      flex: 1 1 40%;
     }
-    .points {
-      font-size: 22px;
-      color: green;
-      margin-top: 10px;
+
+    .btn:hover {
+      background-color: #007ab3;
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 13px;
+    }
+
+    .footer a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .dark-toggle {
+      background: #333;
+      color: white;
+      margin-top: 15px;
+      border-radius: 6px;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>🎯 Adson App এ স্বাগতম</h2>
-    <p>নিচে বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন</p>
 
-    <div class="points">মোট পয়েন্ট: <span id="points">0</span></div>
+  <div class="container">
+    <img src="https://i.postimg.cc/Y9Z6n7D5/logo.png" alt="logo" class="logo" />
 
-    <button class="btn" onclick="watchAd()">🎬 বিজ্ঞাপন দেখুন</button>
+    <h1>Welcome to Utility Tools</h1>
+    <p>Simple, fast and useful tools for everyday tasks</p>
+
+    <div class="button-group">
+      <button class="btn" onclick="openTool('notepad')">Notepad</button>
+      <button class="btn" onclick="openTool('calculator')">Calculator</button>
+      <button class="btn" onclick="openTool('todo')">To-Do List</button>
+      <button class="btn" onclick="openTool('datecalc')">Date Calculator</button>
+      <button class="btn" onclick="watchAd()">🎥 Watch Ad</button>
+    </div>
+
+    <div class="footer">
+      Developed by NTS 1 | <a href="#">Visit Website</a><br />
+      <button class="btn dark-toggle" onclick="toggleDark()">Toggle Dark/Light Mode</button>
+    </div>
   </div>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    let points = 0;
+    function openTool(tool) {
+      alert("Opening " + tool + "...");
+      // Replace with redirection if needed
+    }
 
     function watchAd() {
-      alert("🎬 বিজ্ঞাপন লোড হচ্ছে...");
+      // Monetag ad script from libtl.com runs automatically on page load.
+      alert("Please wait... Ad is being shown.");
+    }
 
-      // Trigger ad
-      if (typeof show_9417101 === "function") {
-        show_9417101();
-      }
-
-      // Delay before rewarding points
-      setTimeout(() => {
-        points += 10;
-        document.getElementById("points").innerText = points;
-        alert("✅ আপনি ১০ পয়েন্ট অর্জন করেছেন!");
-      }, 7000);
+    function toggleDark() {
+      document.body.style.backgroundColor =
+        document.body.style.backgroundColor === "white" ? "#121212" : "white";
     }
   </script>
+
 </body>
 </html>
