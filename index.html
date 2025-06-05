@@ -32,9 +32,9 @@
       cursor: pointer;
       margin-top: 15px;
     }
-    #timerMessage {
+    #pointMessage {
       margin-top: 10px;
-      color: #d9534f;
+      color: #333;
       font-weight: bold;
     }
   </style>
@@ -45,7 +45,7 @@
     <p>বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন।</p>
 
     <button class="btn" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
-    <div id="timerMessage"></div>
+    <div id="pointMessage"></div>
   </div>
 
   <!-- Monetag Interstitial Ad SDK -->
@@ -56,34 +56,18 @@
     tg.expand();
 
     const adCountKey = "adCount";
-    const lastAdTimeKey = "lastAdTime";
     let adCount = parseInt(localStorage.getItem(adCountKey)) || 0;
 
     function watchAd() {
-      const lastTime = parseInt(localStorage.getItem(lastAdTimeKey)) || 0;
-      const now = Date.now();
-
-      if (adCount >= 15 && now - lastTime < 10 * 60 * 1000) {
-        const mins = Math.ceil((10 * 60 * 1000 - (now - lastTime)) / 60000);
-        document.getElementById("timerMessage").innerText = `⏳ ${mins} মিনিট অপেক্ষা করুন`;
-        return;
-      }
-
-      if (adCount >= 15) {
-        adCount = 0;
-        localStorage.setItem(adCountKey, 0);
-        localStorage.setItem(lastAdTimeKey, now);
-      }
-
       alert("🎥 বিজ্ঞাপন লোড হচ্ছে...");
 
       if (typeof show_9417101 === "function") {
-        show_9417101(); // Monetag Interstitial বিজ্ঞাপন দেখায়
+        show_9417101(); // Interstitial বিজ্ঞাপন
         adCount++;
         localStorage.setItem(adCountKey, adCount);
-        document.getElementById("timerMessage").innerText = `✅ আজকের বিজ্ঞাপন দেখা হয়েছে: ${adCount} বার`;
+        document.getElementById("pointMessage").innerText = `✅ মোট পয়েন্ট: ${adCount}`;
       } else {
-        alert("⚠️ বিজ্ঞাপন লোড হয়নি, পরে চেষ্টা করুন।");
+        alert("⚠️ বিজ্ঞাপন লোড হয়নি। দয়া করে পরে আবার চেষ্টা করুন।");
       }
     }
   </script>
