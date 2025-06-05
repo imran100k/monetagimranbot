@@ -7,55 +7,78 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      font-family: sans-serif;
-      background-color: #f9f9f9;
-      text-align: center;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
-    .box {
+
+    .card {
       background: #ffffff;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      margin: 20px auto;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      text-align: center;
+      width: 90%;
       max-width: 400px;
-      position: relative;
     }
-    .btn {
-      background-color: #2AABEE;
-      color: white;
-      border: none;
-      padding: 14px 24px;
-      font-size: 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
+
+    h2 {
+      color: #00796B;
+      margin-bottom: 10px;
     }
-    #loader {
-      display: none;
-      margin-top: 20px;
-      font-size: 16px;
+
+    p {
       color: #555;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
+
+    .btn {
+      background: linear-gradient(to right, #00bcd4, #009688);
+      color: #fff;
+      border: none;
+      padding: 15px 25px;
+      font-size: 17px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: linear-gradient(to right, #009688, #00bcd4);
+    }
+
+    #loader {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #888;
+      display: none;
+    }
+
     #countdown {
-      margin-top: 10px;
       font-weight: bold;
-      font-size: 18px;
-      color: #ff6600;
+      font-size: 16px;
+      color: #e65100;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>🎯 Adson App এ স্বাগতম</h2>
+  <div class="card">
+    <h2>🎯 স্বাগতম Adson App এ</h2>
     <p>বিজ্ঞাপন দেখতে নিচের বাটনে চাপুন।</p>
-    
-    <button class="btn" onclick="showAd()">বিজ্ঞাপন দেখান</button>
+
+    <button class="btn" onclick="showAd()">▶️ বিজ্ঞাপন দেখান</button>
     <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
     <div id="countdown"></div>
   </div>
 
-  <!-- Monetag স্ক্রিপ্ট (আপনার ID দিয়ে) -->
+  <!-- Monetag বিজ্ঞাপন কোড -->
   <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <script>
@@ -81,9 +104,9 @@
           countdown.innerText = "";
 
           if (typeof show_9417101 === 'function') {
-            show_9417101(); // অ্যাড দেখান
+            show_9417101();
           } else {
-            alert("⚠️ অ্যাড SDK লোড হয়নি। আবার চেষ্টা করুন।");
+            alert("⚠️ অ্যাড লোড হয়নি! আবার চেষ্টা করুন।");
           }
         }
       }, 1000);
