@@ -73,7 +73,7 @@
 <body>
   <div class="card">
     <h2>🎯 স্বাগতম Adson App এ</h2>
-    <p>আপনি ৫টি বিজ্ঞাপন দেখতে পারবেন নিচের বাটন থেকে।</p>
+    <p>প্রতিটি বাটন ১০ মিনিটে একবার ব্যবহার করা যাবে।</p>
 
     <button class="btn" onclick="showAd(1)">📺 বিজ্ঞাপন দেখান ১</button>
     <button class="btn" onclick="showAd(2)">📺 বিজ্ঞাপন দেখান ২</button>
@@ -85,16 +85,30 @@
     <div id="countdown"></div>
   </div>
 
-  <!-- Monetag বিজ্ঞাপন স্ক্রিপ্ট -->
+  <!-- Monetag বিজ্ঞাপন কোড -->
   <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <script>
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
+    const lastAdTime = {}; // প্রতিটি বাটনের টাইম
+
     function showAd(buttonNumber) {
       const loader = document.getElementById("loader");
       const countdown = document.getElementById("countdown");
+      const now = Date.now();
+      const lastTime = lastAdTime[buttonNumber] || 0;
+      const diff = now - lastTime;
+
+      const tenMinutes = 10 * 60 * 1000; // ১০ মিনিট মিলিসেকেন্ডে
+
+      if (diff < tenMinutes) {
+        const remaining = Math.ceil((tenMinutes - diff) / 60000);
+        countdown.innerText = `⏳ ${remaining} মিনিট পর আবার চেষ্টা করুন (বাটন ${buttonNumber})`;
+        return;
+      }
+
       loader.style.display = "block";
       countdown.innerText = "";
 
@@ -111,7 +125,8 @@
           countdown.innerText = "";
 
           if (typeof show_9417101 === 'function') {
-            show_9417101(); // বিজ্ঞাপন চালান
+            show_9417101();
+            lastAdTime[buttonNumber] = Date.now(); // টাইম আপডেট করুন
           } else {
             alert("⚠️ অ্যাড লোড হয়নি! আবার চেষ্টা করুন।");
           }
