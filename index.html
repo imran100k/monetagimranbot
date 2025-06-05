@@ -2,158 +2,126 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Adson Income App</title>
+  <title>🎯 Adson App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f1f8e9;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      font-family: sans-serif;
+      background-color: #f4f4f4;
       text-align: center;
-      width: 90%;
+      padding: 20px;
+    }
+    .box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       max-width: 400px;
+      margin: auto;
     }
-
-    h2 {
-      margin-bottom: 10px;
-      color: #388e3c;
-    }
-
-    #points {
-      font-size: 24px;
-      color: #d84315;
-      margin: 15px 0;
-    }
-
     .btn {
-      background-color: #43a047;
+      padding: 12px 20px;
+      margin-top: 10px;
+      background-color: #2AABEE;
       color: white;
       border: none;
-      padding: 12px 18px;
+      border-radius: 8px;
       font-size: 16px;
-      border-radius: 10px;
       cursor: pointer;
-      margin: 6px 0;
-      width: 100%;
     }
-
-    .btn:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    .reset {
-      margin-top: 12px;
-      color: #999;
-      cursor: pointer;
+    .small {
       font-size: 14px;
-      text-decoration: underline;
-    }
-
-    #loader {
-      margin-top: 10px;
-      color: #666;
-      display: none;
+      margin-top: 5px;
+      color: gray;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>📱 Adson ইনকাম অ্যাপ</h2>
-    <p>বাটন ক্লিক করে বিজ্ঞাপন দেখুন এবং ইনকাম করুন!</p>
-
-    <div id="points">🔥 আপনার পয়েন্ট: <span id="pointValue">0</span></div>
-
-    <button class="btn" onclick="handleAdClick(1)" id="btn1">📺 বিজ্ঞাপন দেখান ১</button>
-    <button class="btn" onclick="handleAdClick(2)" id="btn2">📺 বিজ্ঞাপন দেখান ২</button>
-    <button class="btn" onclick="handleAdClick(3)" id="btn3">📺 বিজ্ঞাপন দেখান ৩</button>
-
-    <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
-
-    <div class="reset" onclick="resetPoints()">🗑️ রিসেট করুন</div>
+  <div class="box">
+    <h2>🎯 Adson App</h2>
+    <p>🧮 আপনার পয়েন্ট: <span id="pointValue">0</span></p>
+    <button class="btn" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
+    <p class="small" id="timerMessage"></p>
+    <button class="btn" onclick="claimPoint()">💰 পয়েন্ট সংগ্রহ করুন</button>
+    <button class="btn" onclick="redeem()">💸 ক্যাশআউট</button>
+    <button class="btn" onclick="showReferral()">🎁 রেফারেল লিংক</button>
   </div>
 
-  <!-- Monetag Ad -->
-  <script src="https://libtl.com/sdk.js" data-zone="9417101" data-sdk="show_9417101"></script>
+  <!-- Monetag/Ad Script -->
+  <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) tg.expand();
+    const userId = Telegram.WebApp.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);
+    const referralCode = `ref${userId}`;
+    const adCountKey = "adCount";
+    const lastAdTimeKey = "lastAdTime";
+    const pointKey = "adPoints";
+    let adWatched = false;
 
-    let points = parseInt(localStorage.getItem("adPoints")) || 0;
+    const refBy = new URLSearchParams(window.location.search).get("ref");
+    if (refBy && !localStorage.getItem("referred")) {
+      localStorage.setItem("referred", refBy);
+      // sendReferral(refBy); // Google Sheet integration placeholder
+    }
+
+    let points = parseInt(localStorage.getItem(pointKey)) || 0;
+    let adCount = parseInt(localStorage.getItem(adCountKey)) || 0;
     document.getElementById("pointValue").innerText = points;
 
-    // প্রতিটি বাটনের জন্য স্টেট রাখবো
-    let adState = {
-      1: { viewed: false, rewarded: false },
-      2: { viewed: false, rewarded: false },
-      3: { viewed: false, rewarded: false }
-    };
-
-    function handleAdClick(id) {
-      const loader = document.getElementById("loader");
-      loader.style.display = "block";
-
-      setTimeout(() => {
-        loader.style.display = "none";
-
-        if (typeof show_9417101 === "function") {
-          show_9417101();
-
-          // যদি আগেরবার বিজ্ঞাপন দেখা হয়ে থাকে, তাহলে এবার পয়েন্ট দাও
-          if (adState[id].viewed && !adState[id].rewarded) {
-            addPoints(10);
-            adState[id].rewarded = true;
-            document.getElementById("btn" + id).disabled = true;
-            alert("✅ পয়েন্ট যোগ হয়েছে!");
-          } else if (!adState[id].viewed) {
-            adState[id].viewed = true;
-            alert("👉 বিজ্ঞাপন দেখেছেন! আবার বাটনে ক্লিক করলে পয়েন্ট পাবেন।");
-          } else {
-            alert("⛔ এই বাটন থেকে আপনি পয়েন্ট পেয়েছেন।");
-          }
-
-        } else {
-          alert("⚠️ অ্যাড লোড হয়নি!");
-        }
-      }, 1000);
-    }
-
-    function addPoints(val) {
-      points += val;
-      localStorage.setItem("adPoints", points);
-      document.getElementById("pointValue").innerText = points;
-    }
-
-    function resetPoints() {
-      if (confirm("আপনি কি রিসেট করতে চান?")) {
-        points = 0;
-        localStorage.setItem("adPoints", 0);
-        document.getElementById("pointValue").innerText = 0;
-
-        // Reset button state
-        adState = {
-          1: { viewed: false, rewarded: false },
-          2: { viewed: false, rewarded: false },
-          3: { viewed: false, rewarded: false }
-        };
-        for (let i = 1; i <= 3; i++) {
-          document.getElementById("btn" + i).disabled = false;
-        }
+    function watchAd() {
+      const lastTime = parseInt(localStorage.getItem(lastAdTimeKey)) || 0;
+      const now = Date.now();
+      if (adCount >= 15 && now - lastTime < 10 * 60 * 1000) {
+        const mins = Math.ceil((10 * 60 * 1000 - (now - lastTime)) / 60000);
+        document.getElementById("timerMessage").innerText = `⏳ ${mins} মিনিট অপেক্ষা করুন`;
+        return;
       }
+
+      if (adCount >= 15) {
+        adCount = 0;
+        localStorage.setItem(adCountKey, 0);
+        localStorage.setItem(lastAdTimeKey, now);
+      }
+
+      alert("🎥 বিজ্ঞাপন চলছে...");
+      adWatched = true;
+    }
+
+    function claimPoint() {
+      if (adWatched) {
+        points += 10;
+        adCount += 1;
+        adWatched = false;
+        localStorage.setItem(pointKey, points);
+        localStorage.setItem(adCountKey, adCount);
+        document.getElementById("pointValue").innerText = points;
+        document.getElementById("timerMessage").innerText = `✅ পয়েন্ট অ্যাড হয়েছে! (${adCount}/15 দেখা হয়েছে)`;
+      } else {
+        alert("⚠️ আগে বিজ্ঞাপন দেখুন তারপর পয়েন্ট সংগ্রহ করুন!");
+      }
+    }
+
+    function redeem() {
+      if (points >= 100) {
+        const phone = prompt("📱 বিকাশ/নগদ নম্বর লিখুন:");
+        if (phone && phone.length >= 10) {
+          alert("✅ ক্যাশআউট অনুরোধ পাঠানো হয়েছে!");
+          points = 0;
+          localStorage.setItem(pointKey, 0);
+          document.getElementById("pointValue").innerText = points;
+          // sendToSheet(userId, phone); // placeholder for Google Sheet
+        } else {
+          alert("❌ সঠিক নাম্বার দিন!");
+        }
+      } else {
+        alert("❌ কমপক্ষে ১০০ পয়েন্ট লাগবে ক্যাশআউটের জন্য");
+      }
+    }
+
+    function showReferral() {
+      const link = `${window.location.origin}?ref=${referralCode}`;
+      prompt("🎁 আপনার রেফারেল লিংক:", link);
     }
   </script>
 </body>
