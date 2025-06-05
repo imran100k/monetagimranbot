@@ -2,13 +2,13 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Adson App</title>
+  <title>Adson Income App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+      background: #f1f8e9;
       margin: 0;
       padding: 0;
       display: flex;
@@ -17,121 +17,111 @@
       height: 100vh;
     }
 
-    .card {
+    .container {
       background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      padding: 30px 25px;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       text-align: center;
       width: 90%;
-      max-width: 420px;
+      max-width: 400px;
     }
 
     h2 {
-      color: #00796B;
       margin-bottom: 10px;
+      color: #388e3c;
     }
 
-    p {
-      color: #555;
-      font-size: 16px;
-      margin-bottom: 20px;
+    #points {
+      font-size: 24px;
+      color: #d84315;
+      margin: 15px 0;
     }
 
     .btn {
-      background: linear-gradient(to right, #00bcd4, #009688);
-      color: #fff;
+      background-color: #43a047;
+      color: white;
       border: none;
-      padding: 15px 25px;
+      padding: 12px 18px;
       font-size: 16px;
       border-radius: 10px;
       cursor: pointer;
-      margin: 8px 0;
+      margin: 6px 0;
       width: 100%;
-      transition: background 0.3s;
     }
 
     .btn:hover {
-      background: linear-gradient(to right, #009688, #00bcd4);
+      background-color: #2e7d32;
+    }
+
+    .reset {
+      margin-top: 12px;
+      color: #999;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: underline;
     }
 
     #loader {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #888;
-      display: none;
-    }
-
-    #countdown {
-      font-weight: bold;
-      font-size: 16px;
-      color: #e65100;
       margin-top: 10px;
+      color: #666;
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>🎯 স্বাগতম Adson App এ</h2>
-    <p>প্রতিটি বাটন ১০ মিনিটে একবার ব্যবহার করা যাবে।</p>
+  <div class="container">
+    <h2>📱 Adson ইনকাম অ্যাপ</h2>
+    <p>বাটন ক্লিক করে ইনকাম শুরু করুন!</p>
 
-    <button class="btn" onclick="showAd(1)">📺 বিজ্ঞাপন দেখান ১</button>
-    <button class="btn" onclick="showAd(2)">📺 বিজ্ঞাপন দেখান ২</button>
-    <button class="btn" onclick="showAd(3)">📺 বিজ্ঞাপন দেখান ৩</button>
-    <button class="btn" onclick="showAd(4)">📺 বিজ্ঞাপন দেখান ৪</button>
-    <button class="btn" onclick="showAd(5)">📺 বিজ্ঞাপন দেখান ৫</button>
+    <div id="points">🔥 আপনার পয়েন্ট: <span id="pointValue">0</span></div>
+
+    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ১</button>
+    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ২</button>
+    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ৩</button>
 
     <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
-    <div id="countdown"></div>
+
+    <div class="reset" onclick="resetPoints()">🗑️ রিসেট করুন</div>
   </div>
 
-  <!-- Monetag বিজ্ঞাপন কোড -->
-  <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
+  <!-- Monetag Ad -->
+  <script src="https://libtl.com/sdk.js" data-zone="9417101" data-sdk="show_9417101"></script>
 
   <script>
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
-    const lastAdTime = {}; // প্রতিটি বাটনের টাইম
+    let points = localStorage.getItem("adPoints") || 0;
+    document.getElementById("pointValue").innerText = points;
 
-    function showAd(buttonNumber) {
+    function showAd() {
       const loader = document.getElementById("loader");
-      const countdown = document.getElementById("countdown");
-      const now = Date.now();
-      const lastTime = lastAdTime[buttonNumber] || 0;
-      const diff = now - lastTime;
-
-      const tenMinutes = 10 * 60 * 1000; // ১০ মিনিট মিলিসেকেন্ডে
-
-      if (diff < tenMinutes) {
-        const remaining = Math.ceil((tenMinutes - diff) / 60000);
-        countdown.innerText = `⏳ ${remaining} মিনিট পর আবার চেষ্টা করুন (বাটন ${buttonNumber})`;
-        return;
-      }
-
       loader.style.display = "block";
-      countdown.innerText = "";
 
-      let timeLeft = 5;
-      countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন (বাটন ${buttonNumber})`;
-
-      const interval = setInterval(() => {
-        timeLeft--;
-        countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন (বাটন ${buttonNumber})`;
-
-        if (timeLeft === 0) {
-          clearInterval(interval);
-          loader.style.display = "none";
-          countdown.innerText = "";
-
-          if (typeof show_9417101 === 'function') {
-            show_9417101();
-            lastAdTime[buttonNumber] = Date.now(); // টাইম আপডেট করুন
-          } else {
-            alert("⚠️ অ্যাড লোড হয়নি! আবার চেষ্টা করুন।");
-          }
+      setTimeout(() => {
+        loader.style.display = "none";
+        if (typeof show_9417101 === "function") {
+          show_9417101();
+          addPoints(10); // প্রতি বিজ্ঞাপন ১০ পয়েন্ট
+        } else {
+          alert("⚠️ অ্যাড লোড হয়নি!");
         }
       }, 1000);
+    }
+
+    function addPoints(val) {
+      points = parseInt(points) + val;
+      localStorage.setItem("adPoints", points);
+      document.getElementById("pointValue").innerText = points;
+    }
+
+    function resetPoints() {
+      if (confirm("আপনি কি সত্যিই রিসেট করতে চান?")) {
+        points = 0;
+        localStorage.setItem("adPoints", 0);
+        document.getElementById("pointValue").innerText = 0;
+      }
     }
   </script>
 </body>
