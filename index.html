@@ -1,127 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crazy All | Utility Tools</title>
-
-  <!-- Monetag SDK Ad Script -->
-  <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
-
+  <title>Adson Rewards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
+      background-color: #f2f5f9;
       margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
       padding: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
 
-    .logo {
-      width: 80px;
-      margin-bottom: 10px;
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
-    h1 {
-      font-size: 22px;
+    h2 {
       color: #333;
-      margin-bottom: 5px;
-    }
-
-    p {
-      font-size: 14px;
-      color: #777;
-    }
-
-    .button-group {
-      margin: 20px 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
     }
 
     .btn {
-      padding: 12px 20px;
-      font-size: 15px;
-      background-color: #0096d1;
+      background-color: #2AABEE;
       color: white;
+      padding: 15px 25px;
+      font-size: 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: 0.3s;
-      flex: 1 1 40%;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
     }
 
     .btn:hover {
-      background-color: #007ab3;
+      background-color: #229dd3;
     }
 
     .footer {
-      margin-top: 25px;
-      font-size: 13px;
-    }
-
-    .footer a {
-      color: blue;
-      text-decoration: underline;
-    }
-
-    .dark-toggle {
-      background: #333;
-      color: white;
-      margin-top: 15px;
-      border-radius: 6px;
+      margin-top: 30px;
+      color: #777;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <img src="https://i.postimg.cc/Y9Z6n7D5/logo.png" alt="logo" class="logo" />
+    <h2>🎯 Adson এপে স্বাগতম</h2>
+    <p>বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন।</p>
 
-    <h1>Welcome to Utility Tools</h1>
-    <p>Simple, fast and useful tools for everyday tasks</p>
+    <button class="btn" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
 
-    <div class="button-group">
-      <button class="btn" onclick="openTool('notepad')">Notepad</button>
-      <button class="btn" onclick="openTool('calculator')">Calculator</button>
-      <button class="btn" onclick="openTool('todo')">To-Do List</button>
-      <button class="btn" onclick="openTool('datecalc')">Date Calculator</button>
-      <button class="btn" onclick="watchAd()">🎥 Watch Ad</button>
-    </div>
-
-    <div class="footer">
-      Developed by NTS 1 | <a href="#">Visit Website</a><br />
-      <button class="btn dark-toggle" onclick="toggleDark()">Toggle Dark/Light Mode</button>
-    </div>
+    <div class="footer">📢 Powered by Monetag Ads</div>
   </div>
 
+  <!-- Interstitial Ad SDK (Monetag) -->
+  <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
+
   <script>
-    function openTool(tool) {
-      alert("Opening " + tool + "...");
-      // Replace with redirection if needed
-    }
+    const tg = window.Telegram.WebApp;
+    tg.expand();
 
     function watchAd() {
-      // Monetag ad script from libtl.com runs automatically on page load.
-      alert("Please wait... Ad is being shown.");
-    }
-
-    function toggleDark() {
-      document.body.style.backgroundColor =
-        document.body.style.backgroundColor === "white" ? "#121212" : "white";
+      alert("বিজ্ঞাপন লোড হচ্ছে...");
+      if (typeof window.show_9417101 === 'function') {
+        window.show_9417101();
+      } else {
+        alert("⚠️ অ্যাড এখনো লোড হয়নি। দয়া করে একটু পর চেষ্টা করুন।");
+      }
     }
   </script>
-
 </body>
 </html>
