@@ -1,158 +1,113 @@
-<!DOCTYPE html><html lang="bn">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rewards App</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #fff3e0);
-      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: white;
     }
     .container {
-      max-width: 480px;
-      margin: 30px auto;
       padding: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      margin: auto;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     .profile {
-      text-align: center;
-      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .profile img {
-      width: 90px;
-      height: 90px;
       border-radius: 50%;
-      border: 3px solid #00bcd4;
+      width: 60px;
+      height: 60px;
     }
-    .profile h2 {
-      margin-top: 10px;
-      font-size: 22px;
-      color: #00796b;
-    }
-    .points {
+    .profile-info {
       font-size: 18px;
-      margin: 10px 0;
-      font-weight: 600;
-    }
-    .section {
-      margin-top: 30px;
-    }
-    .section h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
-      color: #00796b;
     }
     .button {
-      display: inline-block;
-      width: 100%;
-      background: #00bcd4;
-      color: white;
-      padding: 14px;
+      padding: 10px 20px;
+      background: #4a90e2;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
+      color: white;
       font-size: 16px;
       cursor: pointer;
-      transition: background 0.3s;
-      margin-top: 8px;
     }
-    .button:hover {
-      background: #0097a7;
-    }
-    ul {
-      padding: 0;
+    .leaderboard li {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
       list-style: none;
     }
-    li {
-      background: #f1f8e9;
-      margin-bottom: 8px;
-      padding: 10px;
-      border-radius: 8px;
-    }
-    code {
-      background: #f5f5f5;
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: block;
-      margin-top: 6px;
-      color: #d84315;
+    .title {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 10px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="profile">
-      <img id="userPhoto" src="" alt="User Photo">
-      <h2 id="userName">👤 Loading...</h2>
-      <div class="points">💰 Points: <span id="points">0</span></div>
-    </div><div class="section">
-  <h3>🎯 Tasks System</h3>
-  <ul>
-    <li>📺 Watch Ad <button class="button" onclick="earnPoints()">Watch & Earn</button></li>
-    <li>🔁 Daily Check-in - 5 Points</li>
-    <li>📺 Watch 5 Ads - 10 Points</li>
-    <li>👨‍💼 Refer Friends - 5 Points each</li>
+    <!-- Profile Card -->
+    <div class="card profile">
+      <img src="https://i.pravatar.cc/60" alt="Profile" />
+      <div class="profile-info">
+        <div><strong>Imran Hossain</strong></div>
+        <div>Points: <span id="points">1250</span></div>
+      </div>
+    </div><!-- Tasks -->
+<div class="card">
+  <div class="title">Tasks</div>
+  <p>Earn points by completing tasks</p>
+  <button class="button" onclick="watchAd()">Watch Ad</button>
+</div>
+
+<!-- Referral -->
+<div class="card">
+  <div class="title">Referral</div>
+  <p>Refer the app to your friends</p>
+  <button class="button" onclick="refer()">Share Link</button>
+</div>
+
+<!-- Leaderboard -->
+<div class="card">
+  <div class="title">Leaderboard</div>
+  <ul class="leaderboard">
+    <li><span>🥇 Alex</span><span>1500</span></li>
+    <li><span>🥈 Amand</span><span>1400</span></li>
+    <li><span>🥉 Jason</span><span>1300</span></li>
   </ul>
 </div>
 
-<div class="section">
-  <h3>👥 Referral System</h3>
-  <p>Your referral link:</p>
-  <code id="refLink">Loading...</code>
-</div>
-
-<div class="section">
-  <h3>🏆 24H Top Users</h3>
-  <ul id="topUsers">
-    <li>Loading...</li>
-  </ul>
-</div>
-
-<div class="section">
-  <h3>💸 Top Earners</h3>
-  <ul id="topEarners">
-    <li>Loading...</li>
-  </ul>
-</div>
-
-  </div>  <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    const user = tg.initDataUnsafe?.user;
-    const userId = user?.id || Math.floor(Math.random() * 1000000);
-    const pointsKey = `points_${userId}`;
-
-    document.getElementById("userName").innerText = user?.first_name || "Anonymous";
-    document.getElementById("userPhoto").src = user?.photo_url || "https://via.placeholder.com/90";
-
-    let points = parseInt(localStorage.getItem(pointsKey)) || 0;
-    document.getElementById("points").innerText = points;
-
-    const botUser = "YOUR_BOT_USERNAME";
-    document.getElementById("refLink").innerText = `https://t.me/${botUser}?start=ref_${userId}`;
-
-    function earnPoints() {
-      if (typeof show_9417101 === "function") {
-        show_9417101();
-        points += 1;
-        localStorage.setItem(pointsKey, points);
+  </div>  <script>
+    let points = 1250;
+    function watchAd() {
+      alert("Ad is playing...");
+      // Simulate ad watched
+      setTimeout(() => {
+        points += 50;
         document.getElementById("points").innerText = points;
-        alert("✅ 1 Point Added!");
-      } else {
-        alert("⚠️ Ad not ready yet.");
-      }
+        alert("You earned 50 points!");
+      }, 3000);
     }
 
-    const topUsers = ["Imran - 150", "Nadia - 120", "Siam - 100"];
-    const topEarners = ["Rafi - 300", "Asif - 250", "Lima - 230"];
-
-    document.getElementById("topUsers").innerHTML = topUsers.map(user => `<li>🌟 ${user}</li>`).join('');
-    document.getElementById("topEarners").innerHTML = topEarners.map(user => `<li>💼 ${user}</li>`).join('');
+    function refer() {
+      const refLink = `${window.location.origin}/?ref=imran123`;
+      navigator.clipboard.writeText(refLink);
+      alert("Referral link copied: " + refLink);
+    }
   </script></body>
 </html>
