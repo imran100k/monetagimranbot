@@ -5,7 +5,6 @@
   <title>Adson App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     body {
@@ -42,10 +41,13 @@
 <body>
   <div class="box">
     <h2>🎯 Adson App এ স্বাগতম</h2>
-    <p>বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন।</p>
+    <p>বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন।</p>
 
     <button class="btn" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
     <div id="pointMessage"></div>
+    <p style="margin-top:20px">🎁 আপনার রেফারেল লিংক:<br>
+      <code id="refLink"></code>
+    </p>
   </div>
 
   <!-- Monetag Interstitial Ad SDK -->
@@ -55,19 +57,37 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    const adCountKey = "adCount";
+    const userId = tg.initDataUnsafe?.user?.id || Math.floor(Math.random() * 1000000);
+    const adCountKey = `adCount_${userId}`;
+    const referredKey = `referred_${userId}`;
     let adCount = parseInt(localStorage.getItem(adCountKey)) || 0;
+
+    // রেফারেল আইডি বের করুন
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("start")?.startsWith("ref_") ? urlParams.get("start").split("ref_")[1] : null;
+
+    // রেফারেল পয়েন্ট যুক্ত করার জন্য লোকাল স্টোরেজ ইউজ করা হচ্ছে (ডেমো)
+    if (ref && ref !== userId.toString() && !localStorage.getItem(referredKey)) {
+      const refKey = `adCount_${ref}`;
+      const prev = parseInt(localStorage.getItem(refKey)) || 0;
+      localStorage.setItem(refKey, prev + 1); // রেফারারকে ১ পয়েন্ট
+      localStorage.setItem(referredKey, "true");
+    }
+
+    // রেফারেল লিংক দেখান
+    const botUsername = "YOUR_BOT_USERNAME"; // আপনার Bot এর ইউজারনেম বসান
+    const refLink = `https://t.me/${botUsername}?start=ref_${userId}`;
+    document.getElementById("refLink").innerText = refLink;
 
     function watchAd() {
       alert("🎥 বিজ্ঞাপন লোড হচ্ছে...");
-
       if (typeof show_9417101 === "function") {
-        show_9417101(); // Interstitial বিজ্ঞাপন
+        show_9417101();
         adCount++;
         localStorage.setItem(adCountKey, adCount);
-        document.getElementById("pointMessage").innerText = `✅ মোট পয়েন্ট: ${adCount}`;
+        document.getElementById("pointMessage").innerText = `✅ আপনার মোট পয়েন্ট: ${adCount}`;
       } else {
-        alert("⚠️ বিজ্ঞাপন লোড হয়নি। দয়া করে পরে আবার চেষ্টা করুন।");
+        alert("⚠️ বিজ্ঞাপন লোড হয়নি। পরে আবার চেষ্টা করুন।");
       }
     }
   </script>
