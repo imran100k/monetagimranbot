@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reward App</title>
+  <title>টাকা ঘর</title>
   <style>
     body {
       margin: 0;
@@ -11,13 +11,11 @@
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       color: white;
     }
-
     .container {
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
     }
-
     .card {
       background: #1e2a38;
       border-radius: 20px;
@@ -25,12 +23,10 @@
       margin-bottom: 20px;
       box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
-
     .profile {
       display: flex;
       align-items: center;
     }
-
     .profile img {
       width: 60px;
       height: 60px;
@@ -38,17 +34,14 @@
       margin-right: 15px;
       border: 2px solid #00bfff;
     }
-
     .profile h2 {
       margin: 0;
       font-size: 20px;
     }
-
     .points {
       font-size: 16px;
       color: #a0e7ff;
     }
-
     .task-button {
       background-color: #007aff;
       color: white;
@@ -60,36 +53,30 @@
       margin-top: 10px;
       transition: background 0.3s;
     }
-
     .task-button:hover {
       background-color: #005fcc;
     }
-
     .section-title {
       font-weight: bold;
       margin-bottom: 10px;
       font-size: 18px;
     }
-
     .leaderboard-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     .leaderboard-list li {
       display: flex;
       justify-content: space-between;
       padding: 6px 0;
       border-bottom: 1px solid #33495e;
     }
-
     .referral {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-
     .referral a {
       color: #00bfff;
       text-decoration: none;
@@ -99,38 +86,38 @@
 <body>
   <div class="container">
 
-    <!-- Profile Card -->
+    <!-- প্রোফাইল কার্ড -->
     <div class="card profile">
       <img src="https://i.ibb.co/rH8t6hD/profile.jpg" alt="User">
       <div>
-        <h2>Imran Hossain</h2>
-        <div class="points">Points: <span id="points">1250</span></div>
+        <h2>ইমরান হোসেন</h2>
+        <div class="points">পয়েন্ট: <span id="points">1250</span></div>
       </div>
     </div>
 
-    <!-- Tasks Section -->
+    <!-- টাস্ক সেকশন -->
     <div class="card">
-      <div class="section-title">Tasks</div>
-      <p>Earn points by completing tasks</p>
-      <button class="task-button" onclick="watchAd()">🎥 Watch Ad</button>
+      <div class="section-title">টাস্ক</div>
+      <p>টাস্ক সম্পন্ন করে পয়েন্ট অর্জন করুন</p>
+      <button class="task-button" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
     </div>
 
-    <!-- Referral -->
+    <!-- রেফারেল -->
     <div class="card">
-      <div class="section-title">Referral</div>
+      <div class="section-title">রেফারেল</div>
       <div class="referral">
-        <p>Refer the app to your friends</p>
-        <a href="#">Copy Link</a>
+        <p>বন্ধুকে রেফার করুন</p>
+        <a href="#">লিংক কপি করুন</a>
       </div>
     </div>
 
-    <!-- Leaderboard -->
+    <!-- লিডারবোর্ড -->
     <div class="card">
-      <div class="section-title">Leaderboard</div>
+      <div class="section-title">লিডারবোর্ড</div>
       <ul class="leaderboard-list">
-        <li><span>🏆 Alex</span> <span>1250</span></li>
-        <li><span>🥈 Amand</span> <span>1180</span></li>
-        <li><span>🥉 Jason</span> <span>1120</span></li>
+        <li><span>🏆 আলেক্স</span> <span>1250</span></li>
+        <li><span>🥈 আমান্ড</span> <span>1180</span></li>
+        <li><span>🥉 জেসন</span> <span>1120</span></li>
       </ul>
     </div>
 
@@ -140,7 +127,7 @@
     let points = 1250;
 
     function watchAd() {
-      alert("Ad watched successfully!");
+      alert("বিজ্ঞাপন সফলভাবে দেখা হয়েছে!");
       points += 10;
       document.getElementById("points").innerText = points;
     }
