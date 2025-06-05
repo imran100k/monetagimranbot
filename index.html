@@ -50,8 +50,9 @@
       width: 100%;
     }
 
-    .btn:hover {
-      background-color: #2e7d32;
+    .btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
     }
 
     .reset {
@@ -72,13 +73,13 @@
 <body>
   <div class="container">
     <h2>📱 Adson ইনকাম অ্যাপ</h2>
-    <p>বাটন ক্লিক করে ইনকাম শুরু করুন!</p>
+    <p>বাটন ক্লিক করে বিজ্ঞাপন দেখুন এবং ইনকাম করুন!</p>
 
     <div id="points">🔥 আপনার পয়েন্ট: <span id="pointValue">0</span></div>
 
-    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ১</button>
-    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ২</button>
-    <button class="btn" onclick="showAd()">📺 বিজ্ঞাপন দেখান ৩</button>
+    <button class="btn" onclick="handleAdClick(1)" id="btn1">📺 বিজ্ঞাপন দেখান ১</button>
+    <button class="btn" onclick="handleAdClick(2)" id="btn2">📺 বিজ্ঞাপন দেখান ২</button>
+    <button class="btn" onclick="handleAdClick(3)" id="btn3">📺 বিজ্ঞাপন দেখান ৩</button>
 
     <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
 
@@ -92,18 +93,39 @@
     const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
-    let points = localStorage.getItem("adPoints") || 0;
+    let points = parseInt(localStorage.getItem("adPoints")) || 0;
     document.getElementById("pointValue").innerText = points;
 
-    function showAd() {
+    // প্রতিটি বাটনের জন্য স্টেট রাখবো
+    let adState = {
+      1: { viewed: false, rewarded: false },
+      2: { viewed: false, rewarded: false },
+      3: { viewed: false, rewarded: false }
+    };
+
+    function handleAdClick(id) {
       const loader = document.getElementById("loader");
       loader.style.display = "block";
 
       setTimeout(() => {
         loader.style.display = "none";
+
         if (typeof show_9417101 === "function") {
           show_9417101();
-          addPoints(10); // প্রতি বিজ্ঞাপন ১০ পয়েন্ট
+
+          // যদি আগেরবার বিজ্ঞাপন দেখা হয়ে থাকে, তাহলে এবার পয়েন্ট দাও
+          if (adState[id].viewed && !adState[id].rewarded) {
+            addPoints(10);
+            adState[id].rewarded = true;
+            document.getElementById("btn" + id).disabled = true;
+            alert("✅ পয়েন্ট যোগ হয়েছে!");
+          } else if (!adState[id].viewed) {
+            adState[id].viewed = true;
+            alert("👉 বিজ্ঞাপন দেখেছেন! আবার বাটনে ক্লিক করলে পয়েন্ট পাবেন।");
+          } else {
+            alert("⛔ এই বাটন থেকে আপনি পয়েন্ট পেয়েছেন।");
+          }
+
         } else {
           alert("⚠️ অ্যাড লোড হয়নি!");
         }
@@ -111,16 +133,26 @@
     }
 
     function addPoints(val) {
-      points = parseInt(points) + val;
+      points += val;
       localStorage.setItem("adPoints", points);
       document.getElementById("pointValue").innerText = points;
     }
 
     function resetPoints() {
-      if (confirm("আপনি কি সত্যিই রিসেট করতে চান?")) {
+      if (confirm("আপনি কি রিসেট করতে চান?")) {
         points = 0;
         localStorage.setItem("adPoints", 0);
         document.getElementById("pointValue").innerText = 0;
+
+        // Reset button state
+        adState = {
+          1: { viewed: false, rewarded: false },
+          2: { viewed: false, rewarded: false },
+          3: { viewed: false, rewarded: false }
+        };
+        for (let i = 1; i <= 3; i++) {
+          document.getElementById("btn" + i).disabled = false;
+        }
       }
     }
   </script>
