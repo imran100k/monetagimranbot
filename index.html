@@ -1,135 +1,169 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>টাকা ঘর</title>
+  <meta charset="UTF-8">
+  <title>রিওয়ার্ড অ্যাপ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: #f5f6fa;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    }
+
+    .header {
+      background-color: #4a90e2;
+      padding: 20px;
       color: white;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
     }
+
     .container {
-      max-width: 400px;
-      margin: 0 auto;
+      max-width: 500px;
+      margin: auto;
       padding: 20px;
     }
+
     .card {
-      background: #1e2a38;
-      border-radius: 20px;
-      padding: 20px;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
       margin-bottom: 20px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
     .profile {
       display: flex;
       align-items: center;
     }
+
     .profile img {
       width: 60px;
       height: 60px;
       border-radius: 50%;
       margin-right: 15px;
-      border: 2px solid #00bfff;
     }
-    .profile h2 {
-      margin: 0;
-      font-size: 20px;
-    }
+
     .points {
-      font-size: 16px;
-      color: #a0e7ff;
+      font-size: 20px;
+      font-weight: bold;
+      color: #27ae60;
     }
-    .task-button {
-      background-color: #007aff;
+
+    .btn {
+      background-color: #4a90e2;
       color: white;
       padding: 10px 20px;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
       margin-top: 10px;
-      transition: background 0.3s;
     }
-    .task-button:hover {
-      background-color: #005fcc;
+
+    .task-list button {
+      margin: 8px 0;
+      width: 100%;
     }
-    .section-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-size: 18px;
-    }
+
     .leaderboard-list {
       list-style: none;
       padding: 0;
-      margin: 0;
     }
+
     .leaderboard-list li {
       display: flex;
       justify-content: space-between;
-      padding: 6px 0;
-      border-bottom: 1px solid #33495e;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
     }
+
     .referral {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .referral a {
-      color: #00bfff;
       text-decoration: none;
+      color: #4a90e2;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
+
+  <div class="header">🎁 রিওয়ার্ড অ্যাপ</div>
+
   <div class="container">
 
-    <!-- প্রোফাইল কার্ড -->
-    <div class="card profile">
-      <img src="https://i.ibb.co/rH8t6hD/profile.jpg" alt="User">
-      <div>
-        <h2>ইমরান হোসেন</h2>
-        <div class="points">পয়েন্ট: <span id="points">1250</span></div>
+    <!-- Profile -->
+    <div class="card">
+      <div class="section-title">👤 প্রোফাইল</div>
+      <div class="profile">
+        <img src="https://via.placeholder.com/60" alt="User">
+        <div>
+          <div>নাম: জন ডো</div>
+          <div class="points">পয়েন্ট: <span id="points">0</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- টাস্ক সেকশন -->
+    <!-- Tasks -->
     <div class="card">
-      <div class="section-title">টাস্ক</div>
-      <p>টাস্ক সম্পন্ন করে পয়েন্ট অর্জন করুন</p>
-      <button class="task-button" onclick="watchAd()">🎥 বিজ্ঞাপন দেখুন</button>
+      <div class="section-title">📋 টাস্কস</div>
+      <div class="task-list">
+        <button class="btn" onclick="watchAd()">Earn Points (Ad দেখুন)</button>
+      </div>
     </div>
 
     <!-- রেফারেল -->
     <div class="card">
-      <div class="section-title">রেফারেল</div>
+      <div class="section-title">👥 রেফারেল</div>
       <div class="referral">
         <p>বন্ধুকে রেফার করুন</p>
-        <a href="#">লিংক কপি করুন</a>
+        <a href="#" onclick="copyReferral()">লিংক কপি করুন</a>
       </div>
     </div>
 
-    <!-- লিডারবোর্ড -->
+    <!-- ✅ রেফারেল লিস্ট -->
     <div class="card">
-      <div class="section-title">লিডারবোর্ড</div>
-      <ul class="leaderboard-list">
-        <li><span>🏆 আলেক্স</span> <span>1250</span></li>
-        <li><span>🥈 আমান্ড</span> <span>1180</span></li>
-        <li><span>🥉 জেসন</span> <span>1120</span></li>
+      <div class="section-title">📈 আমার রেফারেল লিস্ট</div>
+      <ul class="leaderboard-list" id="referralList">
+        <li><span>👤 রাকিব</span> <span>+৫০ পয়েন্ট</span></li>
+        <li><span>👤 সুমন</span> <span>+৩০ পয়েন্ট</span></li>
+        <li><span>👤 হাসিব</span> <span>+২০ পয়েন্ট</span></li>
       </ul>
     </div>
 
   </div>
 
   <script>
-    let points = 1250;
+    let points = 0;
 
     function watchAd() {
-      alert("বিজ্ঞাপন সফলভাবে দেখা হয়েছে!");
-      points += 10;
-      document.getElementById("points").innerText = points;
+      alert("🎬 বিজ্ঞাপন দেখানো হচ্ছে...");
+      setTimeout(() => {
+        points += 10;
+        document.getElementById("points").innerText = points;
+        alert("✅ আপনি ১০ পয়েন্ট অর্জন করেছেন!");
+      }, 3000);
+    }
+
+    function copyReferral() {
+      const referralLink = "https://yourapp.com/?ref=12345";
+      navigator.clipboard.writeText(referralLink);
+      alert("রেফারেল লিংক কপি হয়েছে!");
     }
   </script>
 </body>
