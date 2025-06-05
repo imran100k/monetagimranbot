@@ -2,74 +2,56 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>Ad Rewards App</title>
+  <title>Adson App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Telegram Web App SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <!-- Interstitial Ad SDK (replace Zone ID if needed) -->
   <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #fff);
+      font-family: sans-serif;
+      background-color: #f0f0f0;
       text-align: center;
       padding: 20px;
     }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 20px auto;
       max-width: 400px;
-      margin: auto;
     }
-
-    h2 {
-      color: #00796b;
-      margin-bottom: 10px;
-    }
-
-    .points {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 10px 0;
-      color: #009688;
-    }
-
     .btn {
-      display: inline-block;
-      background-color: #00796b;
-      color: #fff;
-      padding: 14px 24px;
+      background-color: #2AABEE;
+      color: white;
       border: none;
-      border-radius: 10px;
+      padding: 12px 20px;
       font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 20px;
-      transition: background 0.3s;
+      margin-top: 10px;
     }
-
-    .btn:hover {
-      background-color: #004d40;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 13px;
-      color: gray;
+    .points {
+      font-size: 22px;
+      color: green;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>🎁 অ্যাড দেখে পয়েন্ট আয় করুন</h2>
-    <div>আপনার বর্তমান পয়েন্ট:</div>
-    <div class="points" id="points">0</div>
+  <div class="box">
+    <h2>🎯 Adson App এ স্বাগতম</h2>
+    <p>নিচে বিজ্ঞাপন দেখে পয়েন্ট অর্জন করুন</p>
+
+    <div class="points">মোট পয়েন্ট: <span id="points">0</span></div>
+
     <button class="btn" onclick="watchAd()">🎬 বিজ্ঞাপন দেখুন</button>
   </div>
-
-  <div class="footer">© 2025 AdRewards</div>
 
   <script>
     const tg = window.Telegram.WebApp;
@@ -80,7 +62,7 @@
     function watchAd() {
       alert("🎬 বিজ্ঞাপন লোড হচ্ছে...");
 
-      // Interstitial Ad Trigger
+      // Trigger ad
       if (typeof show_9417101 === "function") {
         show_9417101();
       }
@@ -90,7 +72,7 @@
         points += 10;
         document.getElementById("points").innerText = points;
         alert("✅ আপনি ১০ পয়েন্ট অর্জন করেছেন!");
-      }, 7000); // বিজ্ঞাপন দেখার অনুমান সময়
+      }, 7000);
     }
   </script>
 </body>
