@@ -8,27 +8,40 @@
   <style>
     body {
       font-family: sans-serif;
-      background-color: #f0f0f0;
+      background-color: #f9f9f9;
       text-align: center;
       padding: 20px;
     }
     .box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       margin: 20px auto;
       max-width: 400px;
+      position: relative;
     }
     .btn {
       background-color: #2AABEE;
       color: white;
       border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 14px 24px;
+      font-size: 18px;
+      border-radius: 10px;
       cursor: pointer;
+      margin-top: 20px;
+    }
+    #loader {
+      display: none;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555;
+    }
+    #countdown {
       margin-top: 10px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #ff6600;
     }
   </style>
 </head>
@@ -36,10 +49,13 @@
   <div class="box">
     <h2>🎯 Adson App এ স্বাগতম</h2>
     <p>বিজ্ঞাপন দেখতে নিচের বাটনে চাপুন।</p>
+    
     <button class="btn" onclick="showAd()">বিজ্ঞাপন দেখান</button>
+    <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
+    <div id="countdown"></div>
   </div>
 
-  <!-- আপনার অ্যাড স্ক্রিপ্ট -->
+  <!-- Monetag স্ক্রিপ্ট (আপনার ID দিয়ে) -->
   <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <script>
@@ -47,12 +63,30 @@
     if (tg) tg.expand();
 
     function showAd() {
-      alert("বিজ্ঞাপন লোড হচ্ছে...");
-      if (typeof show_9417101 === 'function') {
-        show_9417101();
-      } else {
-        alert("Ad ফাংশন লোড হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।");
-      }
+      const loader = document.getElementById("loader");
+      const countdown = document.getElementById("countdown");
+      loader.style.display = "block";
+      countdown.innerText = "";
+
+      let timeLeft = 5;
+      countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+
+      const interval = setInterval(() => {
+        timeLeft--;
+        countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+
+        if (timeLeft === 0) {
+          clearInterval(interval);
+          loader.style.display = "none";
+          countdown.innerText = "";
+
+          if (typeof show_9417101 === 'function') {
+            show_9417101(); // অ্যাড দেখান
+          } else {
+            alert("⚠️ অ্যাড SDK লোড হয়নি। আবার চেষ্টা করুন।");
+          }
+        }
+      }, 1000);
     }
   </script>
 </body>
