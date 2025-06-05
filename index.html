@@ -7,7 +7,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #1f1c2c, #928dab);
+      background: linear-gradient(to bottom right, #121c2d, #1d2b4d);
       color: white;
     }
     .container {
@@ -17,97 +17,111 @@
     }
     .card {
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 20px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
     .profile {
       display: flex;
       align-items: center;
-      gap: 10px;
     }
     .profile img {
-      border-radius: 50%;
       width: 60px;
       height: 60px;
+      border-radius: 50%;
+      margin-right: 15px;
     }
-    .profile-info {
-      font-size: 18px;
+    .username {
+      font-size: 20px;
+      font-weight: bold;
     }
-    .button {
-      padding: 10px 20px;
-      background: #4a90e2;
-      border: none;
-      border-radius: 8px;
-      color: white;
+    .points {
       font-size: 16px;
+      opacity: 0.8;
+    }
+    .card h3 {
+      margin: 0 0 10px;
+    }
+    .watch-btn {
+      background: #3579f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 12px;
       cursor: pointer;
+    }
+    .leaderboard {
+      display: flex;
+      justify-content: space-between;
+    }
+    .leaderboard ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
     .leaderboard li {
       display: flex;
-      justify-content: space-between;
-      padding: 5px 0;
-      list-style: none;
+      align-items: center;
+      margin-bottom: 8px;
     }
-    .title {
-      font-weight: bold;
+    .leaderboard img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .icon {
       font-size: 20px;
-      margin-bottom: 10px;
+      margin-right: 10px;
+      opacity: 0.7;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Profile Card -->
     <div class="card profile">
-      <img src="https://i.pravatar.cc/60" alt="Profile" />
-      <div class="profile-info">
-        <div><strong>Imran Hossain</strong></div>
-        <div>Points: <span id="points">1250</span></div>
+      <img src="https://i.ibb.co/YhZB4B4/avatar.jpg" alt="Profile Pic" />
+      <div>
+        <div class="username">Imran Hossain</div>
+        <div class="points">1,250 Points</div>
       </div>
-    </div><!-- Tasks -->
-<div class="card">
-  <div class="title">Tasks</div>
+    </div><div class="card">
+  <h3>Tasks</h3>
   <p>Earn points by completing tasks</p>
-  <button class="button" onclick="watchAd()">Watch Ad</button>
+  <button class="watch-btn">Watch Ad</button>
 </div>
 
-<!-- Referral -->
 <div class="card">
-  <div class="title">Referral</div>
+  <h3>Referral</h3>
   <p>Refer the app to your friends</p>
-  <button class="button" onclick="refer()">Share Link</button>
 </div>
 
-<!-- Leaderboard -->
 <div class="card">
-  <div class="title">Leaderboard</div>
-  <ul class="leaderboard">
-    <li><span>🥇 Alex</span><span>1500</span></li>
-    <li><span>🥈 Amand</span><span>1400</span></li>
-    <li><span>🥉 Jason</span><span>1300</span></li>
-  </ul>
+  <h3>Leaderboard</h3>
+  <div class="leaderboard">
+    <div>
+      <strong>Top Users</strong>
+      <ul>
+        <li><img src="https://i.ibb.co/1RvnsJr/user1.png" /> Alex</li>
+        <li><img src="https://i.ibb.co/GRwJ9nw/user2.png" /> Amand</li>
+        <li><img src="https://i.ibb.co/1TZPSGp/user3.png" /> Jason</li>
+      </ul>
+    </div>
+    <div>
+      <strong>Top Earners</strong>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-  </div>  <script>
-    let points = 1250;
-    function watchAd() {
-      alert("Ad is playing...");
-      // Simulate ad watched
-      setTimeout(() => {
-        points += 50;
-        document.getElementById("points").innerText = points;
-        alert("You earned 50 points!");
-      }, 3000);
-    }
-
-    function refer() {
-      const refLink = `${window.location.origin}/?ref=imran123`;
-      navigator.clipboard.writeText(refLink);
-      alert("Referral link copied: " + refLink);
-    }
+  </div>
+</body>
+</html>   }
   </script></body>
 </html>
