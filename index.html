@@ -2,168 +2,95 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <title>রিওয়ার্ড অ্যাপ</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ad Rewards App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src='//libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
+
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #f5f6fa;
       font-family: 'Segoe UI', sans-serif;
-    }
-
-    .header {
-      background-color: #4a90e2;
-      padding: 20px;
-      color: white;
+      background: linear-gradient(to right, #e0f7fa, #fff);
       text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: auto;
       padding: 20px;
     }
 
     .card {
       background: white;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      margin: auto;
     }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
+    h2 {
+      color: #00796b;
       margin-bottom: 10px;
-      color: #333;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-    }
-
-    .profile img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin-right: 15px;
     }
 
     .points {
-      font-size: 20px;
+      font-size: 24px;
       font-weight: bold;
-      color: #27ae60;
+      margin: 10px 0;
+      color: #009688;
     }
 
     .btn {
-      background-color: #4a90e2;
-      color: white;
-      padding: 10px 20px;
+      display: inline-block;
+      background-color: #00796b;
+      color: #fff;
+      padding: 14px 24px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 20px;
+      transition: background 0.3s;
     }
 
-    .task-list button {
-      margin: 8px 0;
-      width: 100%;
+    .btn:hover {
+      background-color: #004d40;
     }
 
-    .leaderboard-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .leaderboard-list li {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .referral {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .referral a {
-      text-decoration: none;
-      color: #4a90e2;
-      font-weight: bold;
+    .footer {
+      margin-top: 30px;
+      font-size: 13px;
+      color: gray;
     }
   </style>
 </head>
 <body>
-
-  <div class="header">🎁 রিওয়ার্ড অ্যাপ</div>
-
-  <div class="container">
-
-    <!-- Profile -->
-    <div class="card">
-      <div class="section-title">👤 প্রোফাইল</div>
-      <div class="profile">
-        <img src="https://via.placeholder.com/60" alt="User">
-        <div>
-          <div>নাম: জন ডো</div>
-          <div class="points">পয়েন্ট: <span id="points">0</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tasks -->
-    <div class="card">
-      <div class="section-title">📋 টাস্কস</div>
-      <div class="task-list">
-        <button class="btn" onclick="watchAd()">Earn Points (Ad দেখুন)</button>
-      </div>
-    </div>
-
-    <!-- রেফারেল -->
-    <div class="card">
-      <div class="section-title">👥 রেফারেল</div>
-      <div class="referral">
-        <p>বন্ধুকে রেফার করুন</p>
-        <a href="#" onclick="copyReferral()">লিংক কপি করুন</a>
-      </div>
-    </div>
-
-    <!-- ✅ রেফারেল লিস্ট -->
-    <div class="card">
-      <div class="section-title">📈 আমার রেফারেল লিস্ট</div>
-      <ul class="leaderboard-list" id="referralList">
-        <li><span>👤 রাকিব</span> <span>+৫০ পয়েন্ট</span></li>
-        <li><span>👤 সুমন</span> <span>+৩০ পয়েন্ট</span></li>
-        <li><span>👤 হাসিব</span> <span>+২০ পয়েন্ট</span></li>
-      </ul>
-    </div>
-
+  <div class="card">
+    <h2>🎁 অ্যাড দেখে পয়েন্ট আয় করুন</h2>
+    <div>আপনার বর্তমান পয়েন্ট:</div>
+    <div class="points" id="points">0</div>
+    <button class="btn" onclick="watchAd()">🎬 বিজ্ঞাপন দেখুন</button>
   </div>
 
+  <div class="footer">© 2025 AdRewards</div>
+
   <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
     let points = 0;
 
     function watchAd() {
-      alert("🎬 বিজ্ঞাপন দেখানো হচ্ছে...");
+      alert("🎬 বিজ্ঞাপন লোড হচ্ছে...");
+
+      // Interstitial Ad Trigger
+      if (typeof show_9417101 === "function") {
+        show_9417101();
+      }
+
+      // Delay before rewarding points
       setTimeout(() => {
         points += 10;
         document.getElementById("points").innerText = points;
         alert("✅ আপনি ১০ পয়েন্ট অর্জন করেছেন!");
-      }, 3000);
-    }
-
-    function copyReferral() {
-      const referralLink = "https://yourapp.com/?ref=12345";
-      navigator.clipboard.writeText(referralLink);
-      alert("রেফারেল লিংক কপি হয়েছে!");
+      }, 7000); // বিজ্ঞাপন দেখার অনুমান সময়
     }
   </script>
 </body>
