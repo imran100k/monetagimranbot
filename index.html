@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>Adson App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    .box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin: 20px auto;
+      max-width: 400px;
+    }
+    .btn {
+      background-color: #2AABEE;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🎯 Adson App এ স্বাগতম</h2>
+    <p>বিজ্ঞাপন দেখতে নিচের বাটনে চাপুন।</p>
+    <button class="btn" onclick="showAd()">বিজ্ঞাপন দেখান</button>
+  </div>
+
+  <!-- আপনার অ্যাড স্ক্রিপ্ট -->
+  <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    if (tg) tg.expand();
+
+    function showAd() {
+      alert("বিজ্ঞাপন লোড হচ্ছে...");
+      if (typeof show_9417101 === 'function') {
+        show_9417101();
+      } else {
+        alert("Ad ফাংশন লোড হয়নি। অনুগ্রহ করে আবার চেষ্টা করুন।");
+      }
+    }
+  </script>
+</body>
+</html>
