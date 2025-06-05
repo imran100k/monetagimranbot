@@ -1,127 +1,149 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rewards App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reward App</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #121c2d, #1d2b4d);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       color: white;
     }
+
     .container {
-      padding: 20px;
       max-width: 400px;
-      margin: auto;
+      margin: 0 auto;
+      padding: 20px;
     }
+
     .card {
-      background: rgba(255, 255, 255, 0.05);
+      background: #1e2a38;
       border-radius: 20px;
       padding: 20px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     }
+
     .profile {
       display: flex;
       align-items: center;
     }
+
     .profile img {
       width: 60px;
       height: 60px;
       border-radius: 50%;
       margin-right: 15px;
+      border: 2px solid #00bfff;
     }
-    .username {
+
+    .profile h2 {
+      margin: 0;
       font-size: 20px;
-      font-weight: bold;
     }
+
     .points {
       font-size: 16px;
-      opacity: 0.8;
+      color: #a0e7ff;
     }
-    .card h3 {
-      margin: 0 0 10px;
-    }
-    .watch-btn {
-      background: #3579f6;
+
+    .task-button {
+      background-color: #007aff;
       color: white;
-      border: none;
       padding: 10px 20px;
-      font-size: 16px;
+      border: none;
       border-radius: 12px;
+      font-size: 16px;
       cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.3s;
     }
-    .leaderboard {
-      display: flex;
-      justify-content: space-between;
+
+    .task-button:hover {
+      background-color: #005fcc;
     }
-    .leaderboard ul {
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .leaderboard-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    .leaderboard li {
+
+    .leaderboard-list li {
       display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #33495e;
+    }
+
+    .referral {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
     }
-    .leaderboard img {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .icon {
-      font-size: 20px;
-      margin-right: 10px;
-      opacity: 0.7;
+
+    .referral a {
+      color: #00bfff;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- Profile Card -->
     <div class="card profile">
-      <img src="https://i.ibb.co/YhZB4B4/avatar.jpg" alt="Profile Pic" />
+      <img src="https://i.ibb.co/rH8t6hD/profile.jpg" alt="User">
       <div>
-        <div class="username">Imran Hossain</div>
-        <div class="points">1,250 Points</div>
+        <h2>Imran Hossain</h2>
+        <div class="points">Points: <span id="points">1250</span></div>
       </div>
-    </div><div class="card">
-  <h3>Tasks</h3>
-  <p>Earn points by completing tasks</p>
-  <button class="watch-btn">Watch Ad</button>
-</div>
+    </div>
 
-<div class="card">
-  <h3>Referral</h3>
-  <p>Refer the app to your friends</p>
-</div>
+    <!-- Tasks Section -->
+    <div class="card">
+      <div class="section-title">Tasks</div>
+      <p>Earn points by completing tasks</p>
+      <button class="task-button" onclick="watchAd()">🎥 Watch Ad</button>
+    </div>
 
-<div class="card">
-  <h3>Leaderboard</h3>
-  <div class="leaderboard">
-    <div>
-      <strong>Top Users</strong>
-      <ul>
-        <li><img src="https://i.ibb.co/1RvnsJr/user1.png" /> Alex</li>
-        <li><img src="https://i.ibb.co/GRwJ9nw/user2.png" /> Amand</li>
-        <li><img src="https://i.ibb.co/1TZPSGp/user3.png" /> Jason</li>
+    <!-- Referral -->
+    <div class="card">
+      <div class="section-title">Referral</div>
+      <div class="referral">
+        <p>Refer the app to your friends</p>
+        <a href="#">Copy Link</a>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="card">
+      <div class="section-title">Leaderboard</div>
+      <ul class="leaderboard-list">
+        <li><span>🏆 Alex</span> <span>1250</span></li>
+        <li><span>🥈 Amand</span> <span>1180</span></li>
+        <li><span>🥉 Jason</span> <span>1120</span></li>
       </ul>
     </div>
-    <div>
-      <strong>Top Earners</strong>
-      <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-      </ul>
-    </div>
-  </div>
-</div>
 
   </div>
+
+  <script>
+    let points = 1250;
+
+    function watchAd() {
+      alert("Ad watched successfully!");
+      points += 10;
+      document.getElementById("points").innerText = points;
+    }
+  </script>
 </body>
-</html>   }
-  </script></body>
 </html>
