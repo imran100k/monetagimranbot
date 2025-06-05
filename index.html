@@ -24,7 +24,7 @@
       padding: 30px 25px;
       text-align: center;
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
     }
 
     h2 {
@@ -43,9 +43,11 @@
       color: #fff;
       border: none;
       padding: 15px 25px;
-      font-size: 17px;
-      border-radius: 12px;
+      font-size: 16px;
+      border-radius: 10px;
       cursor: pointer;
+      margin: 8px 0;
+      width: 100%;
       transition: background 0.3s;
     }
 
@@ -71,32 +73,37 @@
 <body>
   <div class="card">
     <h2>🎯 স্বাগতম Adson App এ</h2>
-    <p>বিজ্ঞাপন দেখতে নিচের বাটনে চাপুন।</p>
+    <p>আপনি ৫টি বিজ্ঞাপন দেখতে পারবেন নিচের বাটন থেকে।</p>
 
-    <button class="btn" onclick="showAd()">▶️ বিজ্ঞাপন দেখান</button>
+    <button class="btn" onclick="showAd(1)">📺 বিজ্ঞাপন দেখান ১</button>
+    <button class="btn" onclick="showAd(2)">📺 বিজ্ঞাপন দেখান ২</button>
+    <button class="btn" onclick="showAd(3)">📺 বিজ্ঞাপন দেখান ৩</button>
+    <button class="btn" onclick="showAd(4)">📺 বিজ্ঞাপন দেখান ৪</button>
+    <button class="btn" onclick="showAd(5)">📺 বিজ্ঞাপন দেখান ৫</button>
+
     <div id="loader">🔄 বিজ্ঞাপন লোড হচ্ছে...</div>
     <div id="countdown"></div>
   </div>
 
-  <!-- Monetag বিজ্ঞাপন কোড -->
+  <!-- Monetag বিজ্ঞাপন স্ক্রিপ্ট -->
   <script src='https://libtl.com/sdk.js' data-zone='9417101' data-sdk='show_9417101'></script>
 
   <script>
-    const tg = window.Telegram.WebApp;
+    const tg = window.Telegram?.WebApp;
     if (tg) tg.expand();
 
-    function showAd() {
+    function showAd(buttonNumber) {
       const loader = document.getElementById("loader");
       const countdown = document.getElementById("countdown");
       loader.style.display = "block";
       countdown.innerText = "";
 
       let timeLeft = 5;
-      countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+      countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন (বাটন ${buttonNumber})`;
 
       const interval = setInterval(() => {
         timeLeft--;
-        countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন...`;
+        countdown.innerText = `⏳ ${timeLeft} সেকেন্ড অপেক্ষা করুন (বাটন ${buttonNumber})`;
 
         if (timeLeft === 0) {
           clearInterval(interval);
@@ -104,7 +111,7 @@
           countdown.innerText = "";
 
           if (typeof show_9417101 === 'function') {
-            show_9417101();
+            show_9417101(); // বিজ্ঞাপন চালান
           } else {
             alert("⚠️ অ্যাড লোড হয়নি! আবার চেষ্টা করুন।");
           }
