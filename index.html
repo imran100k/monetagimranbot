@@ -63,6 +63,11 @@
       margin-bottom: 6px;
       border-radius: 8px;
     }
+    .ad-task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   </style>
 </head>
 <body>
@@ -71,11 +76,10 @@
       <img id="userPhoto" src="" alt="User Photo">
       <h2 id="userName">👤 Loading...</h2>
       <div class="points">💰 Points: <span id="points">0</span></div>
-    </div><button class="button" onclick="earnPoints()">🎯 Earn Points (Watch Ad)</button>
-
-<div class="section">
+    </div><div class="section">
   <h3>🎁 Tasks System</h3>
   <ul>
+    <li class="ad-task">📺 Watch Ad <button class="button" onclick="earnPoints()">Watch</button></li>
     <li>🔁 Daily Check-in - 5 Points</li>
     <li>📺 Watch 5 Ads - 10 Points</li>
     <li>👨‍💼 Refer Friends - 5 Points each</li>
